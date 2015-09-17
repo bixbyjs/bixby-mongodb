@@ -1,0 +1,40 @@
+{
+  "name": "bixby-mongodb",
+  "version": "0.0.0",
+  "description": "TODO: No description specified",
+  "keywords": [
+    "mongodb"
+  ],
+  "author": {
+    "name": "Jared Hanson",
+    "email": "jaredhanson@gmail.com",
+    "url": "http://www.jaredhanson.net/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bixbyjs/bixby-mongodb.git"
+  },
+  "bugs": {
+    "url": "http://github.com/bixbyjs/bixby-mongodb/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "./lib",
+  "dependencies": {
+    "mongodb": "^2.0.43"
+  },
+  "devDependencies": {
+    "mocha": "1.x.x",
+    "chai": "1.x.x"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+  }
+}
