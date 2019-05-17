@@ -6,28 +6,19 @@ exports = module.exports = function(keyring) {
   var api = {};
   
   api.createConnection = function(options, connectListener) {
+    // FIXME: Get path name from text record?
     var url = uri.format({ protocol: 'mongodb', hostname: options.cname, port: options.port, slashes: true, pathname: '/insignature-tokens-development' });
-    console.log(url)
     
     var client = new mongodb.MongoClient(url);
+    if (connectListener) { client.once('open', connectListener); }
     
-    client.on('connect', function() {
-      console.log('MONGO CONNECT');
-    });
+    /*
+    client.on('open', function(){});
+    client.on('authenticated', function(){});
+    client.on('close', function(){});
+    */
     
-    client.on('open', function() {
-      console.log('MONGO OPEN');
-    });
-    
-    client.on('authenticated', function(x) {
-      console.log('MONGO AUTHENTICATED');
-      console.log(x)
-    });
-    
-    client.on('error', function(err) {
-      console.log('MONGO ERROR!');
-      console.log(err)
-    });
+    // TODO: Handle initial errors somehow...
     
     keyring.get(options.cname, function(err, cred) {
       // Setup auth  options on internal structures, since we don't have them yet on createConnection
@@ -36,10 +27,7 @@ exports = module.exports = function(keyring) {
       }
       
       // now we are ready, connect...
-      client.connect(function(x) {
-        console.log('MONGO CONNECTED CALLBACK!');
-        //connectListener();
-      });
+      client.connect();
     });
     
     return client;
