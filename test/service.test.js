@@ -42,6 +42,7 @@ describe('service', function() {
         MongoClientStub.resetHistory();
       });
       
+      
       it('should construct client and connect', function(done) {
         var client = api.createConnection({ cname: 'mongodb.example.com', port: 27017 });
         
@@ -68,4 +69,4 @@ describe('service', function() {
     
   }); // API
   
-});
+}); // service
