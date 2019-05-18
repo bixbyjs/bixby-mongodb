@@ -10,7 +10,7 @@ exports = module.exports = function(mongodb) {
     var store = new MongoStore({ client: client });
     if (connectListener) { store.once('connected', connectListener); }
     return store;
-  }
+  };
   
   return api;
 };
