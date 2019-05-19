@@ -16,6 +16,8 @@ describe('http/session/store', function() {
     expect(factory['@singleton']).to.equal(true);
     expect(factory['@implements']).to.deep.equal([ 'http://i.bixbyjs.org/IService', 'http://i.bixbyjs.org/http/ISessionStore' ]);
     expect(factory['@name']).to.equal('sessions-mongodb');
+    expect(factory['@port']).to.equal(27017);
+    expect(factory['@protocol']).to.equal('tcp');
   });
   
   describe('API', function() {

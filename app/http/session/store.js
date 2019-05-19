@@ -21,6 +21,8 @@ exports['@implements'] = [
   'http://i.bixbyjs.org/http/ISessionStore'
 ];
 exports['@name'] = 'sessions-mongodb';
+exports['@port'] = 27017;
+exports['@protocol'] = 'tcp';
 exports['@require'] = [
   'http://i.bixbyjs.org/mongodb'
 ];

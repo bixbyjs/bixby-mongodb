@@ -42,6 +42,8 @@ exports['@implements'] = [
   'http://i.bixbyjs.org/IService'
 ];
 exports['@name'] = 'mongodb';
+exports['@port'] = 27017;
+exports['@protocol'] = 'tcp';
 exports['@require'] = [
   'http://i.bixbyjs.org/security/CredentialsStore'
 ];

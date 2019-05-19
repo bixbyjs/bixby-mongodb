@@ -15,6 +15,8 @@ describe('service', function() {
     expect(factory['@singleton']).to.equal(true);
     expect(factory['@implements']).to.deep.equal([ 'http://i.bixbyjs.org/mongodb', 'http://i.bixbyjs.org/IService' ]);
     expect(factory['@name']).to.equal('mongodb');
+    expect(factory['@port']).to.equal(27017);
+    expect(factory['@protocol']).to.equal('tcp');
   });
   
   describe('API', function() {
