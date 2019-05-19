@@ -59,6 +59,7 @@ describe('service', function() {
       
       it('should construct client, add listener and connect', function(done) {
         var client = api.createConnection({ cname: 'mongodb.example.com', port: 27017 }, function() {
+          expect(this).to.be.an.instanceof(mongodb.MongoClient);
           expect(client.s.options).to.deep.equal({ auth: { user: 'root', password: 'keyboard cat' } });
           done();
         });

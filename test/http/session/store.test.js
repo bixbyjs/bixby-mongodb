@@ -50,6 +50,7 @@ describe('http/session/store', function() {
       
       it('should construct store and add listener', function(done) {
         var store = api.createConnection({ cname: 'mongodb.example.com', port: 27017 }, function() {
+          expect(this).to.be.an.instanceof(MongoStore);
           done();
         });
         
