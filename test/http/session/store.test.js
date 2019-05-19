@@ -40,21 +40,21 @@ describe('http/session/store', function() {
       
       
       it('should construct store', function() {
-        var store = api.createConnection({ cname: 'mongodb.example.com', port: 27017 });
+        var store = api.createConnection({ name: 'mongodb.example.com', port: 27017 });
         
-        expect(_mongodb.createConnection).to.have.been.calledOnceWithExactly({ cname: 'mongodb.example.com', port: 27017 });
+        expect(_mongodb.createConnection).to.have.been.calledOnceWithExactly({ name: 'mongodb.example.com', port: 27017 });
         expect(MongoStoreStub).to.have.been.calledOnce.and.calledWithNew;
         expect(MongoStoreStub.getCall(0).args[0].client).to.be.an.instanceof(mongodb.MongoClient);
         expect(store).to.be.an.instanceof(MongoStore);
       }); // should construct store
       
       it('should construct store and add listener', function(done) {
-        var store = api.createConnection({ cname: 'mongodb.example.com', port: 27017 }, function() {
+        var store = api.createConnection({ name: 'mongodb.example.com', port: 27017 }, function() {
           expect(this).to.be.an.instanceof(MongoStore);
           done();
         });
         
-        expect(_mongodb.createConnection).to.have.been.calledOnceWithExactly({ cname: 'mongodb.example.com', port: 27017 });
+        expect(_mongodb.createConnection).to.have.been.calledOnceWithExactly({ name: 'mongodb.example.com', port: 27017 });
         expect(MongoStoreStub).to.have.been.calledOnce.and.calledWithNew;
         expect(MongoStoreStub.getCall(0).args[0].client).to.be.an.instanceof(mongodb.MongoClient);
         expect(store).to.be.an.instanceof(MongoStore);
