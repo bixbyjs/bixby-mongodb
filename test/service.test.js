@@ -30,7 +30,10 @@ describe('service', function() {
     
     describe('.createConnection', function() {
       beforeEach(function() {
-        sinon.stub(_keyring, 'get').yieldsAsync(null, { username: 'root', password: 'keyboard cat' });
+        _client.s.options = {};
+        
+        sinon.stub(_keyring, 'get').withArgs('mongodb.example.com').yieldsAsync(null, { username: 'root', password: 'keyboard cat' })
+                                   .withArgs('mongodb.example.org').yieldsAsync(null);
         
         sinon.stub(_client, 'connect').callsFake(function() {
           var self = this;
@@ -67,6 +70,18 @@ describe('service', function() {
         expect(MongoClientStub).to.have.been.calledOnceWithExactly('mongodb://mongodb.example.com:27017/insignature-tokens-development').and.calledWithNew;
         expect(client).to.be.an.instanceof(mongodb.MongoClient);
       }); // should construct client, add listener and connect
+      
+      it('should construct client and connect without credentials', function(done) {
+        var client = api.createConnection({ cname: 'mongodb.example.org', port: 27017 });
+        
+        expect(MongoClientStub).to.have.been.calledOnceWithExactly('mongodb://mongodb.example.org:27017/insignature-tokens-development').and.calledWithNew;
+        expect(client).to.be.an.instanceof(mongodb.MongoClient);
+        
+        client.once('open', function() {
+          expect(client.s.options).to.deep.equal({});
+          done();
+        });
+      }); // should construct client and connect without credentials
       
     }); // .createConnection
     
