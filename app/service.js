@@ -7,8 +7,8 @@ exports = module.exports = function(keyring) {
   
   api.createConnection = function(options, connectListener) {
     // FIXME: Get path name from text record?
-    var url = uri.format({ protocol: 'mongodb', hostname: options.cname, port: options.port, slashes: true, pathname: '/insignature-tokens-development' });
-    
+    var url = uri.format({ protocol: 'mongodb', hostname: options.address || options.name, port: options.port, slashes: true, pathname: '/insignature-tokens-development' });
+
     var client = new mongodb.MongoClient(url);
     if (connectListener) { client.once('open', connectListener); }
     
@@ -20,7 +20,7 @@ exports = module.exports = function(keyring) {
     
     // TODO: Handle initial errors somehow...
     
-    keyring.get(options.cname, function(err, cred) {
+    keyring.get(options.name, function(err, cred) {
       // Setup auth  options on internal structures, since we don't have them yet on createConnection
       if (cred) {
         client.s.options.auth = { user: cred.username, password: cred.password };

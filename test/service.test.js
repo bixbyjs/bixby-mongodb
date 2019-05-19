@@ -33,7 +33,8 @@ describe('service', function() {
         _client.s.options = {};
         
         sinon.stub(_keyring, 'get').withArgs('mongodb.example.com').yieldsAsync(null, { username: 'root', password: 'keyboard cat' })
-                                   .withArgs('mongodb.example.org').yieldsAsync(null);
+                                   .withArgs('mongodb.example.org').yieldsAsync(null)
+                                   .withArgs('localhost').yieldsAsync(null, { username: 'jaredhanson', password: 'h0m35w337h0m3' });
         
         sinon.stub(_client, 'connect').callsFake(function() {
           var self = this;
@@ -49,7 +50,7 @@ describe('service', function() {
       
       
       it('should construct client and connect', function(done) {
-        var client = api.createConnection({ cname: 'mongodb.example.com', port: 27017 });
+        var client = api.createConnection({ name: 'mongodb.example.com', port: 27017 });
         
         expect(MongoClientStub).to.have.been.calledOnceWithExactly('mongodb://mongodb.example.com:27017/insignature-tokens-development').and.calledWithNew;
         expect(client).to.be.an.instanceof(mongodb.MongoClient);
@@ -61,7 +62,7 @@ describe('service', function() {
       }); // should construct client and connect
       
       it('should construct client, add listener and connect', function(done) {
-        var client = api.createConnection({ cname: 'mongodb.example.com', port: 27017 }, function() {
+        var client = api.createConnection({ name: 'mongodb.example.com', port: 27017 }, function() {
           expect(this).to.be.an.instanceof(mongodb.MongoClient);
           expect(client.s.options).to.deep.equal({ auth: { user: 'root', password: 'keyboard cat' } });
           done();
@@ -72,7 +73,7 @@ describe('service', function() {
       }); // should construct client, add listener and connect
       
       it('should construct client and connect without credentials', function(done) {
-        var client = api.createConnection({ cname: 'mongodb.example.org', port: 27017 });
+        var client = api.createConnection({ name: 'mongodb.example.org', port: 27017 });
         
         expect(MongoClientStub).to.have.been.calledOnceWithExactly('mongodb://mongodb.example.org:27017/insignature-tokens-development').and.calledWithNew;
         expect(client).to.be.an.instanceof(mongodb.MongoClient);
@@ -82,6 +83,18 @@ describe('service', function() {
           done();
         });
       }); // should construct client and connect without credentials
+      
+      it('should construct client and connect to address', function(done) {
+        var client = api.createConnection({ name: 'localhost', address: '127.0.0.1', port: 27017 });
+        
+        expect(MongoClientStub).to.have.been.calledOnceWithExactly('mongodb://127.0.0.1:27017/insignature-tokens-development').and.calledWithNew;
+        expect(client).to.be.an.instanceof(mongodb.MongoClient);
+        
+        client.once('open', function() {
+          expect(client.s.options).to.deep.equal({ auth: { user: 'jaredhanson', password: 'h0m35w337h0m3' } });
+          done();
+        });
+      }); // should construct client and connect
       
     }); // .createConnection
     
