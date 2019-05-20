@@ -27,7 +27,9 @@ exports = module.exports = function(keyring) {
       }
       
       // now we are ready, connect...
-      client.connect();
+      client.connect(function(err, x) {
+        if (err) { return client.emit('error', err); }
+      });
     });
     
     return client;

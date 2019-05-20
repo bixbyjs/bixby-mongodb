@@ -8,6 +8,7 @@ exports = module.exports = function(mongodb) {
   api.createConnection = function(options, connectListener) {
     var client = mongodb.createConnection(options);
     var store = new MongoStore({ client: client });
+    client.on('error', store.emit.bind(store, 'error'));
     if (connectListener) { store.once('connected', connectListener); }
     return store;
   };
